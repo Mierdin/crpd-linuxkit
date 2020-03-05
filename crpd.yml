@@ -1,0 +1,47 @@
+kernel:
+  image: linuxkit/kernel:4.19.104
+  cmdline: "console=tty0 console=ttyS0 console=ttyAMA0 console=ttysclp0"
+init:
+  - linuxkit/init:a4fcf333298f644dfac6adf680b83140927aa85e
+  - linuxkit/runc:69b4a35eaa22eba4990ee52cccc8f48f6c08ed03
+  - linuxkit/containerd:09553963ed9da626c25cf8acdf6d62ec37645412
+  # - linuxkit/ca-certificates:v0.7
+onboot:
+  - name: sysctl
+    image: linuxkit/sysctl:v0.7
+  - name: rngd1
+    image: linuxkit/rngd:02c555b50cd1887aa628836662d2eec54c0d7e81
+    command: ["/sbin/rngd", "-1"]
+  - name: dhcpcd
+    image: linuxkit/dhcpcd:v0.7
+    command: ["/sbin/dhcpcd", "--nobackground", "-f", "/dhcpcd.conf", "-1"]
+services:
+  - name: getty
+    image: linuxkit/getty:v0.7
+    env:
+     - INSECURE=true
+  - name: dhcpcd
+    image: linuxkit/dhcpcd:v0.7
+  # - name: sshd
+  #   image: linuxkit/sshd:v0.7
+  - name: crpd
+    image: crpd-fixes:latest
+    net: host
+    # runtime:
+    #   mkdir:
+    #   - /crpd-config
+    #   - /crpd-varlog
+    capabilities:
+    - all
+    # binds:
+    # - /config:/config
+    # - /var/log:/var/log
+
+files:
+  - path: root/.ssh/authorized_keys
+    source: ~/.ssh/id_rsa.pub
+    mode: "0600"
+    optional: true
+trust:
+  org:
+    - linuxkit

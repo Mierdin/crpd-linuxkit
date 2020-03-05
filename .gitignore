@@ -1,0 +1,4 @@
+*.tgz
+crpd-license.txt
+linuxkit/
+*.qcow2
