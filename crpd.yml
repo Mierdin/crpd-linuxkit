@@ -30,18 +30,21 @@ services:
     # runtime:
     #   mkdir:
     #   - /crpd-config
-    #   - /crpd-varlog
     capabilities:
     - all
+    # I had problems with binds. Seems like it tries to do a lot more than docker does in a similar
+    # volume mounting exercise. Chose instead to just copy files into the image, and then move them into
+    # the right location at runtime.
     # binds:
-    # - /config:/config
-    # - /var/log:/var/log
+    # - /crpd-config:/config:rw
 
 files:
-  - path: root/.ssh/authorized_keys
-    source: ~/.ssh/id_rsa.pub
-    mode: "0600"
-    optional: true
+  - path: /crpd-config/license.conf
+    source: license.conf
+    mode: "0664"
+  - path: /crpd-config/juniper.conf
+    source: juniper.conf
+    mode: "0664"
 trust:
   org:
     - linuxkit

@@ -1,4 +1,4 @@
 *.tgz
-crpd-license.txt
+license.conf
 linuxkit/
 *.qcow2
