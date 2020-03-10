@@ -2,3 +2,4 @@
 license.conf
 linuxkit/
 *.qcow2
+venv/

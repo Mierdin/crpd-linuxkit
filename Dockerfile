@@ -10,6 +10,8 @@ ADD license.conf /
 # RUN gzip /config/juniper.conf
 # RUN ls -lha /config
 
+# Add antidote user
+
 RUN echo 'root:antidotepassword' | chpasswd
 
 CMD ["bash", "/launch.sh"]
