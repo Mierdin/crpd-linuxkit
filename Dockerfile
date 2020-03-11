@@ -1,16 +1,19 @@
-FROM crpd:19.4R1.10
+FROM crpd:latest
 
 ADD launch.sh /
 ADD sshd_config /
 
 ADD juniper.conf /
-ADD license.conf /
-
-# ADD crpd01.conf /config/juniper.conf
-# RUN gzip /config/juniper.conf
-# RUN ls -lha /config
+# ADD license.conf /
 
 # Add antidote user
+# (Note that this, as well as the "antidotepassword" password are for NRE labs.
+# You can use whatever auth you wish for your own purposes)
+RUN mkdir -p /home/antidote
+RUN useradd antidote -p antidotepassword
+RUN chown antidote:antidote /home/antidote
+RUN chsh antidote --shell=/bin/bash
+RUN echo 'antidote:antidotepassword' | chpasswd
 
 RUN echo 'root:antidotepassword' | chpasswd
 
