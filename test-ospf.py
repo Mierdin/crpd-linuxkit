@@ -4,7 +4,7 @@ import sys
 from jnpr.junos import Device
 
 user = "root"
-password = "antidotepassword"
+password = "Password1!"
 port = 2023
 host = "127.0.0.1"
 
